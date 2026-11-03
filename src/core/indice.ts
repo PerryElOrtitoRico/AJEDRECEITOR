@@ -124,14 +124,41 @@ export function ordenar(indice: MetaPartida[]): MetaPartida[] {
 // --- Resultado para mí y filtro (T11) ---
 
 export function resultadoParaMi(meta: MetaPartida, misNombres: string[]): ResultadoParaMi {
-	// TODO T11
-	throw new Error('T11: no implementado');
+	if (meta.enCurso) {
+		return 'en curso';
+	}
+
+	const mios = misNombres.map(n => n.toLowerCase());
+	const soyBlancas = mios.includes(meta.blancas.toLowerCase());
+	const soyNegras = mios.includes(meta.negras.toLowerCase());
+
+	if (soyBlancas === soyNegras) {
+		return 'desconocido';
+	}
+
+	if (meta.resultado === '1/2-1/2') {
+		return 'tablas';
+	}
+
+	if (meta.resultado === '*') {
+		return 'desconocido';
+	}
+
+	const ganaronBlancas = meta.resultado === '1-0';
+	if (ganaronBlancas === soyBlancas) {
+		return 'victoria';
+	} else {
+		return 'derrota';
+	}
 }
 
 export function filtrar(
 	indice: MetaPartida[],
 	opciones: { resultado?: ResultadoParaMi; misNombres: string[] },
 ): MetaPartida[] {
-	// TODO T11
-	throw new Error('T11: no implementado');
+	if (opciones.resultado === undefined) {
+		return [...indice];
+	}
+
+	return indice.filter(m => resultadoParaMi(m, opciones.misNombres) === opciones.resultado);
 }
