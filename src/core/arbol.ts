@@ -1,7 +1,6 @@
 // Árbol de jugadas de una partida (con ramas). Inmutable: las funciones devuelven partidas nuevas.
 import type { Nodo, Partida } from './tipos';
 
-// Ya hechas (no las cambies): copia profunda y búsqueda del padre de un nodo.
 function clonar(p: Partida): Partida {
 	return structuredClone(p);
 }
@@ -14,8 +13,6 @@ function padreDe(raiz: Nodo, id: string): Nodo | null {
 	}
 	return null;
 }
-
-// --- Consultas (T06) ---
 
 export function buscarNodo(p: Partida, id: string): Nodo | null {
 	function buscarEn(nodo: Nodo, id: string): Nodo | null {
@@ -60,8 +57,6 @@ export function contarPlies(p: Partida): number {
 	return lineaPrincipal(p).length;
 }
 
-// --- Modificaciones (T07) ---
-
 export function agregarJugada(
 	p: Partida,
 	idPadre: string,
@@ -69,23 +64,77 @@ export function agregarJugada(
 	uci: string,
 	fenNuevo: string,
 ): { partida: Partida; nodo: Nodo } | null {
-	throw new Error('T07: no implementado');
+	const padre = buscarNodo(p, idPadre);
+	if (!padre) return null;
+
+	const hijoExistente = padre.hijos.find((h) => h.san === san);
+	if (hijoExistente !== undefined) {
+		return { partida: p, nodo: hijoExistente };
+	}
+
+	const copia = clonar(p);
+	const padreCopia = buscarNodo(copia, idPadre);
+	if (!padreCopia) return null;
+
+	const nuevoNodo: Nodo = {
+		id: siguienteId(copia),
+		san,
+		uci,
+		fen: fenNuevo,
+		comentario: '',
+		relojSeg: null,
+		hijos: [],
+	};
+
+	padreCopia.hijos.push(nuevoNodo);
+	return { partida: copia, nodo: nuevoNodo };
 }
 
 export function anotar(p: Partida, id: string, texto: string): Partida | null {
-	throw new Error('T07: no implementado');
+	const nodo = buscarNodo(p, id);
+	if (!nodo) return null;
+
+	const copia = clonar(p);
+	const nodoCopia = buscarNodo(copia, id);
+	if (!nodoCopia) return null;
+
+	nodoCopia.comentario = texto;
+	return copia;
 }
 
-// --- Ramas (T08) ---
-
 export function promoverRama(p: Partida, id: string): Partida | null {
-	throw new Error('T08: no implementado');
+	const copia = clonar(p);
+	const padre = padreDe(copia.raiz, id);
+	if (padre === null) return null;
+	
+	const i = padre.hijos.findIndex(h => h.id === id);
+	if (i === -1) return null;
+	
+	const [nodo] = padre.hijos.splice(i, 1);
+	if (nodo === undefined) return null;
+	padre.hijos.unshift(nodo);
+	
+	return copia;
 }
 
 export function borrarRama(p: Partida, id: string): Partida | null {
-	throw new Error('T08: no implementado');
+	const copia = clonar(p);
+	const padre = padreDe(copia.raiz, id);
+	if (padre === null) return null;
+	
+	padre.hijos = padre.hijos.filter(h => h.id !== id);
+	return copia;
 }
 
 export function siguienteId(p: Partida): string {
-	throw new Error('T08: no implementado');
+	let mayor = 0;
+	function recursivo(nodo: Nodo): void {
+		const num = Number(nodo.id.slice(1));
+		if (num > mayor) mayor = num;
+		for (const hijo of nodo.hijos) {
+			recursivo(hijo);
+		}
+	}
+	recursivo(p.raiz);
+	return 'n' + (mayor + 1);
 }
