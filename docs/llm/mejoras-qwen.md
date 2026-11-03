@@ -31,3 +31,6 @@ verde: Gemma: sacó 'Origen, Resultado' del import del esqueleto (regla ya conoc
 
 ## T10 (qwen, intentos: 3)
 verde: Intento 1 (304 s): actualizarIndice no llenaba 'indice' y ordenar al revés (2 errores de lógica). Corr. 1 arregló actualizarIndice pero dejó fecha ascendente (a.fecha.localeCompare(b.fecha)); corr. 2 con la línea literal a reemplazar: verde. Regla: en comparadores 'más nuevo primero', escribir en la tarea 'b.fecha.localeCompare(a.fecha)'. Archivo 137 líneas (>120) con T11 pendiente.
+
+## T11 (gemma, intentos: 1)
+verde: Al primer pedido (267 s, 1696 tokens). tsc y 32 tests T09-T11 OK; solo tocó los dos cuerpos de T11. indice.ts queda en 164 líneas (T09+T10+T11 juntas: el tope de 120 por archivo no es alcanzable).
