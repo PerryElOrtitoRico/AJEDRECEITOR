@@ -10,3 +10,6 @@ verde: Gemma: tsc falló por noUncheckedIndexedAccess (match[1..3] undefined, 3 
 
 ## T04 (gemma + qwen (corr.), intentos: 2)
 verde: Gemma: variable renombrada a medias (comando/command), 'as any' en bestmove y 131 líneas (>120). Una corrección de qwen (520 s, sin razonar) arregló los tres. Regla: decirle a Gemma 'sin as any: los campos opcionales se asignan directo' y el tope de líneas en la tarea.
+
+## T05 (gemma, intentos: 1)
+verde: Al primer pedido (65 s, 439 tokens). tsc, visible y 5 ocultos OK.
