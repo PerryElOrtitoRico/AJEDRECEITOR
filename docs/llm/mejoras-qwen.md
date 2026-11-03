@@ -25,3 +25,6 @@ devuelta a Opus (bloqueada por T08): Intento 1: implementó también promoverRam
 
 ## T08 (qwen, intentos: 2)
 devuelta a Opus: Intento 1: unshift equivocado + 'corrección' en el mismo cuerpo; dos errores TS2345 (noUncheckedIndexedAccess) en promoverRama. Corr. 1 (con las 3 líneas literales a poner) fallida: dejó 'padre.hijos.unshift(nodo)' sin el 'if (nodo === undefined) return null;' (error: arbol.ts(114,22) TS2345 Argument of type 'Nodo | undefined' is not assignable to parameter of type 'Nodo'; línea: padre.hijos.unshift(nodo);) y el archivo quedó en 139 líneas (>120). Con ese único fallo tsc, los 27 tests T06-T08 pasaban. Regla: ante noUncheckedIndexedAccess dar el patrón 'const x = arr[i]; if (x === undefined) return null;' ya en la tarea.
+
+## T09 (gemma + qwen (corr.), intentos: 2)
+verde: Gemma: sacó 'Origen, Resultado' del import del esqueleto (regla ya conocida) y 3 errores noUncheckedIndexedAccess en match[1]/match[2]. Una corrección de qwen con el import literal y el patrón '?? ""' (195 s): verde (13 tests). Archivo 130 líneas con los stubs de T10/T11 (>120 antes de implementarlos).
