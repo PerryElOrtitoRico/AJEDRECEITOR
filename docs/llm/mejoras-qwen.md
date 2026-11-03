@@ -19,3 +19,9 @@ verde: Intento 1: en jugada calculó 'quedan' pero no lo guardó en restanteSeg 
 
 ## T06 (qwen, intentos: 1)
 verde: Al primer pedido (64 s, 748 tokens). tsc, visibles y ocultos T06 OK; no tocó T07/T08.
+
+## T07 (qwen, intentos: 2)
+devuelta a Opus (bloqueada por T08): Intento 1: implementó también promoverRama/borrarRama/siguienteId (T08) y dejó id '' en vez de siguienteId(copia); el T06 anterior había borrado los '// TODO T07/T08' del esqueleto, por eso no los reconoció como ajenos. Corrección 1: código de T07 correcto (agregarJugada/anotar), pero sus ocultos llaman a siguienteId, que lanza 'T08: no implementado' hasta que T08 esté hecha: T07 no puede quedar verde antes que T08 (dependencia no declarada en el README).
+
+## T08 (qwen, intentos: 2)
+devuelta a Opus: Intento 1: unshift equivocado + 'corrección' en el mismo cuerpo; dos errores TS2345 (noUncheckedIndexedAccess) en promoverRama. Corr. 1 (con las 3 líneas literales a poner) fallida: dejó 'padre.hijos.unshift(nodo)' sin el 'if (nodo === undefined) return null;' (error: arbol.ts(114,22) TS2345 Argument of type 'Nodo | undefined' is not assignable to parameter of type 'Nodo'; línea: padre.hijos.unshift(nodo);) y el archivo quedó en 139 líneas (>120). Con ese único fallo tsc, los 27 tests T06-T08 pasaban. Regla: ante noUncheckedIndexedAccess dar el patrón 'const x = arr[i]; if (x === undefined) return null;' ya en la tarea.
