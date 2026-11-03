@@ -16,31 +16,19 @@ export function cabeceraDePgn(texto: string): Record<string, string> {
 	const cabecera: Record<string, string> = {};
 	let etiquetasVistas = false;
 	const lineas = texto.split(/\r?\n/);
-
 	for (const linea of lineas) {
 		const lineaRecortada = linea.trim();
-		if (lineaRecortada.length === 0) {
-			continue;
-		}
-
+		if (lineaRecortada.length === 0) continue;
 		const regexEtiqueta = /^\[(\w+)\s+"((?:[^"\\]|\\.)*)"\]\s*$/;
 		const match = lineaRecortada.match(regexEtiqueta);
-
 		if (match) {
 			const clave = match[1] ?? '';
 			let valor = match[2] ?? '';
-			// Reemplazar secuencias de escape: \" -> ", \\ -> \
 			valor = valor.replace(/\\(["\\])/g, '$1');
-			if (clave !== '') {
-				cabecera[clave] = valor;
-			}
+			if (clave !== '') cabecera[clave] = valor;
 			etiquetasVistas = true;
-		} else if (etiquetasVistas) {
-			// Si no es etiqueta y ya vimos etiquetas, hemos entrado en jugadas
-			break;
-		}
+		} else if (etiquetasVistas) break;
 	}
-
 	return cabecera;
 }
 
@@ -48,10 +36,7 @@ function fechaNormalizada(valor: string | undefined): string {
 	if (!valor) return '';
 	const fechaRegex = /^(\d{4})[.-](\d{2})[.-](\d{2})$/;
 	const match = valor.match(fechaRegex);
-	if (match) {
-		// Formato AAAA-MM-DD
-		return `${match[1]}-${match[2]}-${match[3]}`;
-	}
+	if (match) return `${match[1]}-${match[2]}-${match[3]}`;
 	return '';
 }
 
@@ -64,31 +49,24 @@ export function metaDesdeCabecera(
 	const fechaDate = fechaNormalizada(cabecera.Date);
 	const fechaUTCDate = fechaNormalizada(cabecera.UTCDate);
 	const fecha = fechaDate || fechaUTCDate;
-
 	const blancas = cabecera.White ?? '?';
 	const negras = cabecera.Black ?? '?';
-
 	let resultado: Resultado = '*';
 	const resStr = cabecera.Result;
 	if (resStr === '1-0' || resStr === '0-1' || resStr === '1/2-1/2') {
 		resultado = resStr as Resultado;
 	}
-
 	let origen: Origen = 'app';
 	const importId = cabecera.ImportId;
-	if (importId?.startsWith('lichess:')) {
-		origen = 'lichess';
-	} else if (importId?.startsWith('chesscom:')) {
-		origen = 'chesscom';
-	} else {
+	if (importId?.startsWith('lichess:')) origen = 'lichess';
+	else if (importId?.startsWith('chesscom:')) origen = 'chesscom';
+	else {
 		const origenStr = cabecera.Origen;
 		if (origenStr === 'app' || origenStr === 'lichess' || origenStr === 'chesscom' || origenStr === 'manual') {
 			origen = origenStr as Origen;
 		}
 	}
-
 	const enCurso = cabecera.EnCurso === '1';
-
 	return {
 		archivo: archivo.substring(archivo.lastIndexOf('/') + 1),
 		modificado: modificado,
@@ -105,13 +83,42 @@ export function metaDesdeCabecera(
 // --- Mantener y ordenar (T10) ---
 
 export function actualizarIndice(viejo: MetaPartida[], listado: Archivo[]): ActualizacionIndice {
-	// TODO T10
-	throw new Error('T10: no implementado');
+	const porNombre = new Map<string, MetaPartida>(viejo.map(m => [m.archivo, m]));
+	const presentes = new Set<string>();
+	const aLeer: string[] = [];
+	const eliminados: string[] = [];
+	const indice: MetaPartida[] = [];
+	for (const archivo of listado) {
+		if (!esArchivoPartida(archivo.nombre)) continue;
+		presentes.add(archivo.nombre);
+		const entrada = porNombre.get(archivo.nombre);
+		if (entrada && entrada.modificado === archivo.modificado) {
+			indice.push(entrada);
+			continue;
+		}
+		aLeer.push(archivo.nombre);
+	}
+	for (const m of viejo) {
+		if (!presentes.has(m.archivo)) eliminados.push(m.archivo);
+	}
+	return { indice, aLeer, eliminados };
 }
 
 export function ordenar(indice: MetaPartida[]): MetaPartida[] {
-	// TODO T10
-	throw new Error('T10: no implementado');
+	const copia = [...indice];
+	copia.sort((a, b) => {
+		const tieneFechaA = a.fecha !== '';
+		const tieneFechaB = b.fecha !== '';
+		if (tieneFechaA && !tieneFechaB) return -1;
+		if (!tieneFechaA && tieneFechaB) return 1;
+		if (a.fecha === '' || b.fecha === '') {
+			return b.modificado - a.modificado;
+		}
+		const comp = b.fecha.localeCompare(a.fecha);
+		if (comp !== 0) return comp;
+		return b.modificado - a.modificado;
+	});
+	return copia;
 }
 
 // --- Resultado para mí y filtro (T11) ---
