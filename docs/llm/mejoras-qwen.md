@@ -28,3 +28,6 @@ devuelta a Opus: Intento 1: unshift equivocado + 'corrección' en el mismo cuerp
 
 ## T09 (gemma + qwen (corr.), intentos: 2)
 verde: Gemma: sacó 'Origen, Resultado' del import del esqueleto (regla ya conocida) y 3 errores noUncheckedIndexedAccess en match[1]/match[2]. Una corrección de qwen con el import literal y el patrón '?? ""' (195 s): verde (13 tests). Archivo 130 líneas con los stubs de T10/T11 (>120 antes de implementarlos).
+
+## T10 (qwen, intentos: 3)
+verde: Intento 1 (304 s): actualizarIndice no llenaba 'indice' y ordenar al revés (2 errores de lógica). Corr. 1 arregló actualizarIndice pero dejó fecha ascendente (a.fecha.localeCompare(b.fecha)); corr. 2 con la línea literal a reemplazar: verde. Regla: en comparadores 'más nuevo primero', escribir en la tarea 'b.fecha.localeCompare(a.fecha)'. Archivo 137 líneas (>120) con T11 pendiente.
