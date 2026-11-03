@@ -37,3 +37,6 @@ verde: Al primer pedido (267 s, 1696 tokens). tsc y 32 tests T09-T11 OK; solo to
 
 ## T12 (qwen, intentos: 2)
 verde: Intento 1: 12 errores tsc por noUncheckedIndexedAccess (lineas[i], match[1]) + typo de variable + lógica de marcarImportada (hay() solo miraba la última etiqueta, agregó líneas vacías). Una corrección con cada arreglo literal (90 s): verde. Regla: dar en TODAS las tareas el patrón noUncheckedIndexedAccess (if (x === undefined) continue; ?? '').
+
+## T13 (gemma + qwen (corr.), intentos: 2)
+verde: Gemma: TS2322 (match[1] undefined) y agregó '/' final a las URLs (contradice 'con su barra final si la tenían') y hacía return antes del sort cuando había 'desde'. Corrección de qwen con los tres arreglos literales (121 s): verde. Regla: el 'si la tenían' no lo cumple Gemma sin un ejemplo con y sin barra.
