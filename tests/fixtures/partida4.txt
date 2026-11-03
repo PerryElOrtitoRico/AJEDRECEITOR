@@ -1,0 +1,11 @@
+[Site "Chess.com"]
+[Date "2026-10-29"]
+[White "FrancoStechina"]
+[Black "stevinaonaiguaran3"]
+[Result "0-1"]
+[WhiteElo "519"]
+[BlackElo "537"]
+[TimeControl "600"]
+1. e4 e5 2. Nf3 d6 3. Nc3 Nc6 4. Bc4 Nf6 5. O-O Be7 6. Nd5 Nxd5 7. Bxd5 O-O 8.
+d3 Bg4 9. Be3 Nd4 10. a4 c6 11. Bc4 d5 12. exd5 cxd5 13. Bb3 Bxf3 14. gxf3 Nxb3
+15. cxb3 d4 16. Bd2 a5 17. Rc1 b6 18. f4 f6 19. fxe5 fxe5 20. Re1 Rf5 0-1

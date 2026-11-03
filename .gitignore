@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src-tauri/target/
+android/build/
+android/.gradle/
+*.apk
+indice.json
+.ajedrez-cache/
+*.tmp
+docs/llm/__pycache__/
