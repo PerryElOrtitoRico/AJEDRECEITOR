@@ -18,23 +18,46 @@ function padreDe(raiz: Nodo, id: string): Nodo | null {
 // --- Consultas (T06) ---
 
 export function buscarNodo(p: Partida, id: string): Nodo | null {
-	// TODO T06
-	throw new Error('T06: no implementado');
+	function buscarEn(nodo: Nodo, id: string): Nodo | null {
+		if (nodo.id === id) return nodo;
+		for (const hijo of nodo.hijos) {
+			const encontrado = buscarEn(hijo, id);
+			if (encontrado !== null) return encontrado;
+		}
+		return null;
+	}
+	return buscarEn(p.raiz, id);
 }
 
 export function camino(p: Partida, id: string): Nodo[] {
-	// TODO T06
-	throw new Error('T06: no implementado');
+	const nodo = buscarNodo(p, id);
+	if (!nodo) return [];
+	
+	function recursivo(nodoActual: Nodo): Nodo[] | null {
+		if (nodoActual.id === id) return [nodoActual];
+		for (const hijo of nodoActual.hijos) {
+			const sub = recursivo(hijo);
+			if (sub !== null) return [nodoActual, ...sub];
+		}
+		return null;
+	}
+	
+	const resultado = recursivo(p.raiz);
+	return resultado ? resultado : [];
 }
 
 export function lineaPrincipal(p: Partida): Nodo[] {
-	// TODO T06
-	throw new Error('T06: no implementado');
+	let actual = p.raiz.hijos[0];
+	const resultado: Nodo[] = [];
+	while (actual !== undefined) {
+		resultado.push(actual);
+		actual = actual.hijos[0];
+	}
+	return resultado;
 }
 
 export function contarPlies(p: Partida): number {
-	// TODO T06
-	throw new Error('T06: no implementado');
+	return lineaPrincipal(p).length;
 }
 
 // --- Modificaciones (T07) ---
@@ -46,28 +69,23 @@ export function agregarJugada(
 	uci: string,
 	fenNuevo: string,
 ): { partida: Partida; nodo: Nodo } | null {
-	// TODO T07
 	throw new Error('T07: no implementado');
 }
 
 export function anotar(p: Partida, id: string, texto: string): Partida | null {
-	// TODO T07
 	throw new Error('T07: no implementado');
 }
 
 // --- Ramas (T08) ---
 
 export function promoverRama(p: Partida, id: string): Partida | null {
-	// TODO T08
 	throw new Error('T08: no implementado');
 }
 
 export function borrarRama(p: Partida, id: string): Partida | null {
-	// TODO T08
 	throw new Error('T08: no implementado');
 }
 
 export function siguienteId(p: Partida): string {
-	// TODO T08
 	throw new Error('T08: no implementado');
 }

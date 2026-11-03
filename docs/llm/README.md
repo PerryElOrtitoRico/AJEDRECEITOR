@@ -32,3 +32,4 @@ Modelo: Gemma = T01 T02 T04 T05 T09 T11 T13 T14; qwen = T03 T06 T07 T08 T10 T12.
 | T04 | gemma + qwen (corr.) | 2 | verde | Gemma: variable renombrada a medias (comando/command), 'as any' en bestmove y 131 líneas (>120). Una corrección de qwen (520 s, sin razonar) arregló los tres. Regla: decirle a Gemma 'sin as any: los campos opcionales se asignan directo' y el tope de líneas en la tarea. |
 | T05 | gemma | 1 | verde | Al primer pedido (65 s, 439 tokens). tsc, visible y 5 ocultos OK. |
 | T03 | qwen | 3 | verde | Intento 1: en jugada calculó 'quedan' pero no lo guardó en restanteSeg (4 tests rojos). Corrección 1 (error + contrato) devolvió lo mismo; corrección 2 con las líneas exactas a reemplazar, verde en 75 s. Regla: cuando devuelve el mismo bug, dar el bloque literal a cambiar; y en la tarea decir 'guardá el valor calculado en el campo'. |
+| T06 | qwen | 1 | verde | Al primer pedido (64 s, 748 tokens). tsc, visibles y ocultos T06 OK; no tocó T07/T08. |

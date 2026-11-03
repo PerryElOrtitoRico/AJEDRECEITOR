@@ -16,3 +16,6 @@ verde: Al primer pedido (65 s, 439 tokens). tsc, visible y 5 ocultos OK.
 
 ## T03 (qwen, intentos: 3)
 verde: Intento 1: en jugada calculó 'quedan' pero no lo guardó en restanteSeg (4 tests rojos). Corrección 1 (error + contrato) devolvió lo mismo; corrección 2 con las líneas exactas a reemplazar, verde en 75 s. Regla: cuando devuelve el mismo bug, dar el bloque literal a cambiar; y en la tarea decir 'guardá el valor calculado en el campo'.
+
+## T06 (qwen, intentos: 1)
+verde: Al primer pedido (64 s, 748 tokens). tsc, visibles y ocultos T06 OK; no tocó T07/T08.
