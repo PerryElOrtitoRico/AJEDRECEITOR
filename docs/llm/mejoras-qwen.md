@@ -34,3 +34,6 @@ verde: Intento 1 (304 s): actualizarIndice no llenaba 'indice' y ordenar al rev�
 
 ## T11 (gemma, intentos: 1)
 verde: Al primer pedido (267 s, 1696 tokens). tsc y 32 tests T09-T11 OK; solo tocó los dos cuerpos de T11. indice.ts queda en 164 líneas (T09+T10+T11 juntas: el tope de 120 por archivo no es alcanzable).
+
+## T12 (qwen, intentos: 2)
+verde: Intento 1: 12 errores tsc por noUncheckedIndexedAccess (lineas[i], match[1]) + typo de variable + lógica de marcarImportada (hay() solo miraba la última etiqueta, agregó líneas vacías). Una corrección con cada arreglo literal (90 s): verde. Regla: dar en TODAS las tareas el patrón noUncheckedIndexedAccess (if (x === undefined) continue; ?? '').
