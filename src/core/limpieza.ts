@@ -5,22 +5,53 @@ export interface RelojExtraido {
 	resto: string;
 }
 
+/**
+ * Compacta un texto: reemplaza secuencias de 2 o más espacios por uno solo y recorta.
+ */
+function compactar(texto: string): string {
+	return texto.replace(/\s{2,}/g, ' ').trim();
+}
+
 export function extraerReloj(comentario: string): RelojExtraido {
-	// TODO T02
-	throw new Error('T02: no implementado');
+	const regex = /\[%clk\s+(\d+):(\d{1,2}):(\d{1,2}(?:\.\d+)?)\]/;
+	const match = comentario.match(regex);
+
+	if (!match) {
+		return { relojSeg: null, resto: compactar(comentario) };
+	}
+
+	const horas = Number(match[1] ?? '0');
+	const minutos = Number(match[2] ?? '0');
+	const segundos = Number(match[3] ?? '0');
+
+	const relojSeg = (horas * 3600) + (minutos * 60) + segundos;
+
+	const resto = comentario.replace(regex, '').trim();
+
+	return { relojSeg, resto: compactar(resto) };
 }
 
 export function quitarEvaluaciones(comentario: string): string {
-	// TODO T02
-	throw new Error('T02: no implementado');
+	const regex = /\[%(?:eval|emt|cal|csl|depth)\s[^\]]*\]/g;
+	const resultado = comentario.replace(regex, '');
+	return compactar(resultado);
 }
 
 export function esComentarioDeAnalisis(texto: string): boolean {
-	// TODO T02
-	throw new Error('T02: no implementado');
+	const trimmedText = texto.trim();
+	const regexAnalisis = /^(Inaccuracy|Mistake|Blunder)\. .* was best\.$/;
+	
+	return regexAnalisis.test(trimmedText) || trimmedText === 'Checkmate is now unavoidable.';
 }
 
 export function limpiarNags(nags: number[]): number[] {
-	// TODO T02
-	throw new Error('T02: no implementado');
+	const nagsFiltrados: number[] = [];
+	for (const nag of nags) {
+		// Conservar si no está en [1..6] ni en [10..19]
+		const esNAGNoDeseado = (nag >= 1 && nag <= 6) || (nag >= 10 && nag <= 19);
+		if (!esNAGNoDeseado) {
+			nagsFiltrados.push(nag);
+		}
+	}
+	return nagsFiltrados;
 }
