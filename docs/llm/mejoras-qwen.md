@@ -40,3 +40,6 @@ verde: Intento 1: 12 errores tsc por noUncheckedIndexedAccess (lineas[i], match[
 
 ## T13 (gemma + qwen (corr.), intentos: 2)
 verde: Gemma: TS2322 (match[1] undefined) y agregó '/' final a las URLs (contradice 'con su barra final si la tenían') y hacía return antes del sort cuando había 'desde'. Corrección de qwen con los tres arreglos literales (121 s): verde. Regla: el 'si la tenían' no lo cumple Gemma sin un ejemplo con y sin barra.
+
+## T14 (gemma + qwen (corr.), intentos: 2)
+verde: Gemma: copió mal la regex de números de jugada (/\d+\.+?/ lazy en vez de /\d+\.+/g) aunque la tarea la traía literal, y 2 errores TS2345 (cabecera.Date undefined). Una corrección de qwen con la línea exacta (61 s): verde.
