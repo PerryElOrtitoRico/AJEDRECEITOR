@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AJEDRECEITOR</string>
+    <string name="title_activity_main">AJEDRECEITOR</string>
+    <string name="package_name">com.ajedrez.app</string>
+    <string name="custom_url_scheme">com.ajedrez.app</string>
+</resources>
