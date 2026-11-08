@@ -8,3 +8,4 @@ indice.json
 .ajedrez-cache/
 *.tmp
 docs/llm/__pycache__/
+src-tauri/gen/

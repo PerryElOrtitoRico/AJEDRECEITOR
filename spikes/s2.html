@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>S2</title>
+<!-- Spike S2: ¿Stockfish lite corre en este navegador/WebView y cuánto tarda? Abrir con npm run dev en /spikes/s2.html -->
+<pre id="o" style="font-size:28px">probando…</pre>
+<script>
+const o = document.getElementById('o'), w = new Worker('/engine/stockfish-19-lite-single.js'), t0 = performance.now();
+let t1;
+w.onmessage = (e) => {
+	const l = String(e.data);
+	if (l === 'uciok') { t1 = performance.now(); w.postMessage('position startpos moves e2e4'); w.postMessage('go movetime 500'); }
+	if (l.startsWith('info depth')) o.dataset.prof = l.split(' ')[2];
+	if (l.startsWith('bestmove')) o.textContent = `S2 OK\ncarga ${Math.round(t1 - t0)} ms\n${l}\nprofundidad ${o.dataset.prof} en 500 ms\n${navigator.userAgent}`;
+};
+w.onerror = (e) => (o.textContent = 'S2 FALLA: ' + e.message);
+w.postMessage('uci');
+</script>

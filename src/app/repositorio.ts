@@ -2,6 +2,7 @@
 import { huella, normalizarMovetext } from '../core/huella';
 import { idLichess } from '../core/importar-lichess';
 import { lineaPrincipal } from '../core/arbol';
+import { esConflicto } from '../core/nombres';
 import { actualizarIndice, cabeceraDePgn, metaDesdeCabecera, ordenar } from '../core/indice';
 import { nombreArchivo } from './utiles';
 import type { Almacen, MetaPartida, Partida } from '../core/tipos';
@@ -43,6 +44,11 @@ export class Repositorio {
 
 	async guardar(archivo: string, partida: Partida): Promise<void> {
 		await this.almacen.escribir(archivo, escribirPgn(partida));
+	}
+
+	// Copias que deja Syncthing cuando dos dispositivos editan la misma partida.
+	async conflictos(): Promise<string[]> {
+		return (await this.almacen.listar()).map((a) => a.nombre).filter(esConflicto);
 	}
 
 	async borrar(archivo: string): Promise<void> {

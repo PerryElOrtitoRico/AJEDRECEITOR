@@ -1,0 +1,50 @@
+/* Estilo rústico: grises, bordes de 1 px, esquinas de 3 px, sin sombras, letra del sistema. */
+:root {
+	--fondo: #f2f2f2; --panel: #ffffff; --texto: #222; --suave: #777; --borde: #bbb;
+	--acento: #3b6ea5; --actual: #d6e4f2; --peligro: #a33;
+	color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+	:root { --fondo: #1d1d1d; --panel: #262626; --texto: #ddd; --suave: #999; --borde: #444; --acento: #7aa7d6; --actual: #34465a; --peligro: #e07070; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body {
+	margin: 0; background: var(--fondo); color: var(--texto);
+	font: 15px/1.4 system-ui, sans-serif;
+	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+#app { max-width: 1200px; margin: 0 auto; padding: 12px 16px; }
+h1 { font-size: 20px; margin: 0 0 10px; }
+button, select, input, textarea {
+	font: inherit; color: inherit; background: var(--panel);
+	border: 1px solid var(--borde); border-radius: 3px; padding: 5px 10px;
+}
+button { cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--acento); }
+button:disabled { opacity: .45; cursor: default; }
+textarea { width: 100%; resize: vertical; }
+.fila { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+.caja { background: var(--panel); border: 1px solid var(--borde); border-radius: 3px; padding: 10px; margin-bottom: 10px; }
+.suave { color: var(--suave); }
+.error { color: var(--peligro); }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--borde); }
+td, th { padding: 6px 8px; border-bottom: 1px solid var(--borde); text-align: left; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--actual); }
+.etiqueta { font-size: 12px; border: 1px solid var(--borde); border-radius: 3px; padding: 0 5px; }
+
+/* Pantallas con tablero: lado a lado en la PC y la tablet horizontal, apiladas en el celular. */
+.con-tablero { display: grid; grid-template-columns: minmax(280px, 640px) minmax(260px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .con-tablero { grid-template-columns: 1fr; } }
+.tablero { width: 100%; max-width: calc(100vh - 200px); aspect-ratio: 1; }
+@media (max-width: 760px) { .tablero { max-width: none; } }
+.jugadas { max-height: 50vh; overflow-y: auto; line-height: 1.8; }
+.jugadas .j { white-space: nowrap; cursor: pointer; padding: 1px 3px; border-radius: 3px; }
+.jugadas .j:hover { background: var(--actual); }
+.jugadas .j.actual { background: var(--acento); color: var(--panel); }
+.jugadas .num { color: var(--suave); margin-left: 4px; }
+.jugadas .com { color: var(--suave); font-style: italic; margin: 0 4px; }
+.jugadas .rama { color: var(--suave); font-size: 14px; }
+.reloj { font-size: 26px; font-variant-numeric: tabular-nums; padding: 2px 10px; border: 1px solid var(--borde); border-radius: 3px; display: inline-block; min-width: 110px; text-align: right; }
+.reloj.corre { border-color: var(--acento); }
+.reloj.poco { color: var(--peligro); }
