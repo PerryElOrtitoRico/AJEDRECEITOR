@@ -31,6 +31,9 @@ export function crearTablero(el: HTMLElement, alMover: (uci: string) => void) {
 			},
 		},
 	});
+	// chessground guarda la posición del tablero; si algo de arriba cambia de alto (p. ej. "guardado"), los toques quedan corridos.
+	const recalcular = () => api.state.dom.bounds.clear();
+	for (const evento of ['touchstart', 'mousedown'] as const) el.addEventListener(evento, recalcular, { capture: true, passive: true });
 	return {
 		mostrar(v: Vista): void {
 			fen = v.fen;
