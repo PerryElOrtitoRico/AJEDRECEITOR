@@ -8,6 +8,7 @@
 	:root { --fondo: #1d1d1d; --panel: #262626; --texto: #ddd; --suave: #999; --borde: #444; --acento: #7aa7d6; --actual: #34465a; --peligro: #e07070; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
+html { background: var(--fondo); }
 body {
 	margin: 0; background: var(--fondo); color: var(--texto);
 	font: 15px/1.4 system-ui, sans-serif;

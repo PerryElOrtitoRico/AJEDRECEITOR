@@ -54,7 +54,7 @@ function convertirJuego(juego: Game<PgnNodeData>): Partida | null {
 
 export function escribirPgn(p: Partida): string {
 	const convertir = (nodo: Nodo): ChildNode<PgnNodeData> => {
-		const comentario = makeComment({ text: nodo.comentario, ...(nodo.relojSeg !== null ? { clock: nodo.relojSeg } : {}) });
+		const comentario = makeComment({ ...(nodo.comentario ? { text: nodo.comentario } : {}), ...(nodo.relojSeg !== null ? { clock: nodo.relojSeg } : {}) });
 		const hijo = new ChildNode<PgnNodeData>({ san: nodo.san, ...(comentario ? { comments: [comentario] } : {}) });
 		hijo.children = nodo.hijos.map(convertir);
 		return hijo;
