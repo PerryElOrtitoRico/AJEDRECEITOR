@@ -17,11 +17,13 @@ npm install
 npm run verificar      # tsc + todos los tests (visibles y ocultos)
 npx tauri dev          # la app de escritorio, con recarga
 npx tauri build        # binario en src-tauri/target/release/ajedrez y paquetes .deb/.AppImage
+npm run build && npx cap sync android && (cd android && ANDROID_HOME=~/Android/Sdk ./gradlew assembleDebug)
+~/Android/Sdk/platform-tools/adb install -r android/app/build/outputs/apk/debug/app-debug.apk   # APK de Android
 npm run dev            # solo navegador: las partidas quedan en memoria y se pierden al cerrar
 ```
 
 ## Dónde guarda los datos
-`~/Documentos/Carpeta personal/Ajedrez/Partidas/`, un `.pgn` por partida (`AAAA-MM-DD_HHMMSS_blancas-vs-negras_<id8>.pgn`). Escritura atómica (`.tmp` y renombrar). No hay índice en disco: se rearma al abrir.
+PC: `~/Documentos/Carpeta personal/Ajedrez/Partidas/`. Android: `Documents/Ajedrez/partidas` (pide "acceso a todos los archivos" la primera vez). Las sincroniza Syncthing (carpeta `ajedrez-partidas`). En cada uno,, un `.pgn` por partida (`AAAA-MM-DD_HHMMSS_blancas-vs-negras_<id8>.pgn`). Escritura atómica (`.tmp` y renombrar). No hay índice en disco: se rearma al abrir.
 
 ## Estructura
 ```mermaid
