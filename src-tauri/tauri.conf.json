@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Ajedrez",
+        "title": "AJEDRECEITOR",
         "width": 1100,
         "height": 760,
         "resizable": true,
