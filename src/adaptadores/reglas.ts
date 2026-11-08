@@ -90,7 +90,7 @@ export function estado(fen: string): Estado {
 	if (pos.isCheckmate()) return { fin: true, resultado: pos.turn === 'white' ? '0-1' : '1-0', motivo: 'jaque mate' };
 	if (pos.isStalemate()) return { fin: true, resultado: '1/2-1/2', motivo: 'ahogado' };
 	if (pos.isInsufficientMaterial()) return { fin: true, resultado: '1/2-1/2', motivo: 'material insuficiente' };
-	// shortcut: no detecta la triple repetición (necesita el historial), agregarla si molesta en partidas reales
+	// La triple repetición necesita el historial: la detecta sesion-juego.ts.
 	if (pos.halfmoves >= 100) return { fin: true, resultado: '1/2-1/2', motivo: 'cincuenta jugadas' };
 	return { fin: false };
 }

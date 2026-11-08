@@ -38,6 +38,15 @@ describe('sesion-juego', () => {
 		expect(rendirse(s).fin?.resultado).toBe('0-1');
 		expect(tablas(s).fin?.resultado).toBe('1/2-1/2');
 	});
+	it('triple repetición: tablas a la tercera vez de la misma posición, no antes', () => {
+		let s = nueva();
+		const vaivén = ['g1f3', 'g8f6', 'f3g1', 'f6g8'];
+		for (const [i, u] of [...vaivén, ...vaivén.slice(0, 3)].entries()) s = mover(s, u, i * 1000)!;
+		expect(s.fin).toBeNull(); // la inicial apareció 2 veces, la de Nf3 Nf6... también 2
+		s = mover(s, 'f6g8', 8000)!; // inicial por tercera vez
+		expect(s.fin).toEqual({ resultado: '1/2-1/2', motivo: 'triple repetición' });
+		expect(s.partida.cabecera.Result).toBe('1/2-1/2');
+	});
 	it('guardar a mitad de partida y retomar', () => {
 		let s = mover(mover(nueva('negras'), 'd2d4', 0)!, 'g8f6', 5000)!;
 		const otra = retomar(leerPgn(escribirPgn(s.partida))!, ['francostechina'], 100_000);
