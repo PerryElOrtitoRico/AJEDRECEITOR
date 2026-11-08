@@ -56,7 +56,15 @@ export function mover(s: Sesion, uci: string, ahoraMs: number): Sesion | null {
 	agregado.nodo.relojSeg = Math.round(restante(reloj, mueve, ahoraMs) * 10) / 10;
 	const nueva: Sesion = { ...s, partida: agregado.partida, reloj };
 	const e = estado(hecha.fen);
-	return e.fin ? terminar(nueva, e.resultado ?? '*', e.motivo ?? '') : nueva;
+	if (e.fin) return terminar(nueva, e.resultado ?? '*', e.motivo ?? '');
+	return repeticiones(nueva, hecha.fen) >= 3 ? terminar(nueva, '1/2-1/2', 'triple repetición') : nueva;
+}
+
+// Misma posición = mismas piezas, turno, enroques y captura al paso (los 4 primeros campos del FEN; chessops solo
+// escribe la casilla al paso cuando la captura es legal, como pide la regla).
+const clave = (fen: string) => fen.split(' ').slice(0, 4).join(' ');
+function repeticiones(s: Sesion, fen: string): number {
+	return [s.partida.raiz.fen, ...jugadas(s).map((n) => n.fen)].filter((f) => clave(f) === clave(fen)).length;
 }
 
 export function porTiempo(s: Sesion, ahoraMs: number): Sesion {
